@@ -1,0 +1,103 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 28.06.2021 23:17:41
+// Design Name: 
+// Module Name: seq_det
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module seq_det(input i,clk,reset,t,output reg y,output reg [2:0] ns,output [3:0]qt);
+reg [2:0] ps;
+
+wire w1,w2,w3;
+parameter s0=3'b000,s1=3'b001,s2=3'b010,s3=3'b100;
+always @(posedge clk,posedge reset)
+begin
+if (reset)
+begin
+ps=s0;
+ns=ps;
+y=1'b0;
+end
+else
+begin
+case (ps)
+s0: if (i)
+    begin
+    ns=s1;
+    ps=ns;
+    y=1'b0;
+    end 
+    else
+    begin
+    ns=s0;
+    ps=ns;
+    y=1'b0;
+    end 
+s1: if (i)
+        begin
+        ns=s2;
+        ps=ns;
+        y=1'b0;
+        end 
+        else
+        begin
+        ns=s0;
+        ps=ns;
+        y=1'b0;
+        end 
+s2: if (i)
+        begin
+        ns=s2;
+        ps=ns;
+        y=1'b0;
+        end 
+        else
+        begin
+        ns=s3;
+        ps=ns;
+        y=1'b0;
+        end 
+s3: if (i)
+        begin
+        ns=s1;
+        ps=ns;
+        y=1'b1;
+        end 
+        else
+        begin
+        ns=s0;
+        ps=ns;
+        y=1'b0;
+        end
+default begin
+        ps=s0;
+        y=1'b0;
+        ns=ps; 
+        end
+endcase 
+end
+
+end
+t_flop t0(.y(y),.t(t),.reset(reset),.q(qt[0]));
+assign w1=~qt[0];
+t_flop t1(.y(w1),.t(t),.reset(reset),.q(qt[1]));
+assign w2=~qt[1];
+t_flop t2(.y(w2),.t(t),.reset(reset),.q(qt[2]));
+assign w3=~qt[2];
+t_flop t3(.y(w3),.t(t),.reset(reset),.q(qt[3]));
+endmodule
