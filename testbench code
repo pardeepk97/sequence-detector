@@ -1,0 +1,68 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 29.06.2021 14:28:32
+// Design Name: 
+// Module Name: seq_det_tb
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module seq_det_tb();
+reg i,clock,reset,t;
+wire y;
+wire [2:0] ns;
+wire [3:0] qt;
+seq_det s1(.i(i),.clk(clock),.reset(reset),.ns(ns),.y(y),.t(t),.qt(qt));
+initial
+begin
+clock=1'b0;
+forever #10 clock=~clock;
+end
+initial
+begin
+t=1'b1;
+reset=1'b0;
+#1 reset=1'b1;
+#2 reset=1'b0;
+end
+initial
+begin
+i=1'b0;
+#10 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b0;
+#20 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b0;
+#20 i=1'b1;
+#20 i=1'b0;
+#20 i=1'b0;
+#20 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b0;
+#20 i=1'b0;
+#20 i=1'b1;
+#20 i=1'b0;
+#20 i=1'b1;
+#20 i=1'b1;
+#20 i=1'b0;
+#20 i=1'b1;
+#20 $stop;
+end
+endmodule
